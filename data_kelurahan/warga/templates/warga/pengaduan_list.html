@@ -1,0 +1,28 @@
+{% extends 'warga/base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>Daftar Seluruh Pengaduan Warga</h1>
+    <hr>
+    
+    {% if daftar_pengaduan %}
+      <ul class="list-group">
+        {% for aduan in daftar_pengaduan %}
+          <li class="list-group-item">
+            <h4>{{ aduan.judul }}</h4>
+            <p>{{ aduan.deskripsi }}</p>
+            <small>
+              Status: <strong>{{ aduan.get_status_display }}</strong> | 
+              Dilaporkan oleh: <strong>{{ aduan.pelapor.nama_lengkap }}</strong> |
+              Tanggal: {{ aduan.tanggal_pengaduan|date:"d F Y H:i" }}
+            </small>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="alert alert-info">
+        Belum ada pengaduan yang dibuat oleh warga manapun.
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

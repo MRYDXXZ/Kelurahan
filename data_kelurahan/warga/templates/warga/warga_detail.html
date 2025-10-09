@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detail Warga</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 1rem; }
+        .card { border: 1px solid #ddd; padding: 1rem; border-radius: 6px; max-width: 800px; }
+        dt { font-weight: bold; }
+        .aduan { margin-top: 1rem; }
+        .aduan li { margin-bottom: 0.75rem; }
+    </style>
+</head>
+<body>
+    <h1>Detail Warga</h1>
+    <div class="card">
+        <dl>
+            <dt>Nama Lengkap</dt>
+            <dd>{{ object.nama_lengkap }}</dd>
+
+            <dt>NIK</dt>
+            <dd>{{ object.nik }}</dd>
+
+            <dt>Alamat</dt>
+            <dd>{{ object.alamat }}</dd>
+
+            <dt>Nomor Telepon</dt>
+            <dd>{{ object.no_telepon|default:'-' }}</dd>
+
+            <dt>Tanggal Registrasi</dt>
+            <dd>{{ object.tanggal_registrasi }}</dd>
+        </dl>
+    </div>
+
+    <hr>
+    <h2>Daftar Pengaduan oleh {{ object.nama_lengkap }}</h2>
+
+    <ul class="aduan">
+        {% for aduan in object.pengaduan.all %}
+            <li>
+                <strong>{{ aduan.judul }}</strong> (Status: {{ aduan.get_status_display }})
+                <p>{{ aduan.deskripsi }}</p>
+            </li>
+        {% empty %}
+            <li>Warga ini belum pernah membuat pengaduan.</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'warga-list' %}">Kembali ke daftar warga</a></p>
+</body>
+</html>
