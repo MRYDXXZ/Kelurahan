@@ -5,6 +5,10 @@
 </head>
 <body>
     <h1>Daftar Warga</h1>
+    <a href="{% url 'warga-tambah' %}">Tambah Warga Baru</a>
+    |
+    <a href="{% url 'pengaduan-tambah' %}">Tambah Pengaduan</a>
+    <hr>
     <ul>
         {% for warga in object_list %}
             <li>
