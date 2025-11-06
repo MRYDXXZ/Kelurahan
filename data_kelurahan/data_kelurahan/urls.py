@@ -20,4 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('warga/', include('warga.urls')),
+    # API endpoints (DRF)
+    path('api/', include('warga.api_urls')),
 ]
