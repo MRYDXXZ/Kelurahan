@@ -4,23 +4,17 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Warga, Pengaduan
 from .forms import WargaForm, PengaduanForm
 # DRF imports for API
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .serializers import WargaSerializer
+from rest_framework import viewsets
+from .serializers import WargaSerializer, PengaduanSerializer
 
 
 class WargaListView(ListView):
 	model = Warga
 
 
-class WargaRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-	"""API endpoint for retrieve/update/delete of a single Warga by PK.
-
-	GET /api/warga/<pk>/
-	PUT /api/warga/<pk>/
-	PATCH /api/warga/<pk>/
-	DELETE /api/warga/<pk>/
-	"""
-	queryset = Warga.objects.all()
+class WargaViewSet(viewsets.ModelViewSet):
+	"""API endpoint that allows Warga to be viewed or edited via ViewSet/Router."""
+	queryset = Warga.objects.all().order_by('-tanggal_registrasi')
 	serializer_class = WargaSerializer
 
 
@@ -75,13 +69,9 @@ class PengaduanDeleteView(DeleteView):
 
 
 # --- API VIEWS ---
-class WargaListCreateAPIView(ListCreateAPIView):
-	"""API endpoint that returns a list of Warga (GET) and allows creation (POST).
-
-	GET /api/warga/
-	POST /api/warga/
-	"""
-	queryset = Warga.objects.all()
-	serializer_class = WargaSerializer
+class PengaduanViewSet(viewsets.ModelViewSet):
+	"""API endpoint that allows Pengaduan to be viewed or edited via ViewSet/Router."""
+	queryset = Pengaduan.objects.all().order_by('-tanggal_pengaduan')
+	serializer_class = PengaduanSerializer
 
 
