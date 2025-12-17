@@ -5,7 +5,11 @@ from .models import Warga, Pengaduan
 from .forms import WargaForm, PengaduanForm
 # DRF imports for API
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import WargaSerializer, PengaduanSerializer
+
 
 
 class WargaListView(ListView):
@@ -16,6 +20,12 @@ class WargaViewSet(viewsets.ModelViewSet):
 	"""API endpoint that allows Warga to be viewed or edited via ViewSet/Router."""
 	queryset = Warga.objects.all().order_by('-tanggal_registrasi')
 	serializer_class = WargaSerializer
+	permission_classes = [IsAuthenticatedOrReadOnly]
+
+	# Filtering / search / ordering
+	filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+	search_fields = ['nama_lengkap', 'nik', 'alamat']
+	ordering_fields = ['nama_lengkap', 'tanggal_registrasi']
 
 
 class WargaDetailView(DetailView):
@@ -73,5 +83,13 @@ class PengaduanViewSet(viewsets.ModelViewSet):
 	"""API endpoint that allows Pengaduan to be viewed or edited via ViewSet/Router."""
 	queryset = Pengaduan.objects.all().order_by('-tanggal_pengaduan')
 	serializer_class = PengaduanSerializer
+
+	# Only admin users can view or modify pengaduan via API
+	permission_classes = [IsAdminUser]
+
+	# Filtering / search / ordering for Pengaduan
+	filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+	search_fields = ['judul', 'isi']
+	ordering_fields = ['status', 'tanggal_pengaduan']
 
 
