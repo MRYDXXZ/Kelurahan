@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - Data Warga Kelurahan</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:24px;background:#f7f7f7}
+    .card{background:#fff;padding:20px;border-radius:6px;max-width:420px;margin:40px auto;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+    h1{margin:0 0 12px;font-size:1.3rem}
+    label{display:block;margin-top:10px;font-size:0.95rem}
+    input[type="text"],input[type="password"]{width:100%;padding:8px;margin-top:6px;border:1px solid #ddd;border-radius:4px}
+    button{margin-top:14px;padding:8px 12px;border:0;background:#1976d2;color:#fff;border-radius:4px;cursor:pointer}
+    #login-status{margin-top:10px;font-size:0.95rem}
+    .note{margin-top:12px;color:#666;font-size:0.9rem}
+    a.small{display:inline-block;margin-top:8px;color:#1976d2;font-size:0.9rem;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <h1>Masuk</h1>
+    <p>Masukkan API token untuk autentikasi. (Penggunaan development saja.)</p>
+
+    <form id="login-form" autocomplete="off">
+      <label for="token">API Token</label>
+      <input id="token" name="token" type="text" inputmode="text" required />
+      <button type="submit">Masuk</button>
+      <div id="login-status" aria-live="polite"></div>
+    </form>
+
+    <p class="note">Jika belum punya token, dapatkan dari administrator atau endpoint backend.</p>
+    <a class="small" href="index.html" id="to-index">Kembali ke halaman utama</a>
+  </div>
+
+  <script>
+    (function () {
+      const storageKey = 'api_token';
+      const statusEl = document.getElementById('login-status');
+      const tokenInput = document.getElementById('token');
+      const form = document.getElementById('login-form');
+
+      // Jika sudah login, langsung ke index.html
+      try {
+        if (localStorage.getItem(storageKey)) {
+          window.location.href = 'index.html';
+        }
+      } catch (e) {
+        console.error('Storage access error', e);
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const token = tokenInput.value.trim();
+        if (!token) {
+          statusEl.textContent = 'Token wajib diisi.';
+          statusEl.style.color = 'red';
+          return;
+        }
+        try {
+          localStorage.setItem(storageKey, token);
+          statusEl.textContent = 'Berhasil masuk. Mengarahkan...';
+          statusEl.style.color = 'green';
+          setTimeout(() => { window.location.href = 'index.html'; }, 500);
+        } catch (err) {
+          statusEl.textContent = 'Gagal menyimpan token di browser.';
+          statusEl.style.color = 'red';
+          console.error(err);
+        }
+      });
+
+      // Tautan kembali ke index: jika diklik saat belum login, biarkan user tahu
+      document.getElementById('to-index').addEventListener('click', function (ev) {
+        if (!localStorage.getItem(storageKey)) {
+          ev.preventDefault();
+          statusEl.textContent = 'Anda harus login terlebih dahulu untuk melakukan aksi terbatas.';
+          statusEl.style.color = '#555';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
