@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
 from warga import views
 
@@ -28,4 +29,12 @@ urlpatterns = [
     path('api/', include('warga.api_urls')),
     path('api/auth/token/', obtain_auth_token, name='api-token-auth'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),  # For browsable API login/logout
+    
+    # --- URL DOKUMENTASI API ---
+    # Menghasilkan file schema.yml
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Halaman Swagger UI
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    # Halaman Redoc
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]

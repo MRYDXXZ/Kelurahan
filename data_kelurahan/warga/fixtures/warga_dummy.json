@@ -1,0 +1,57 @@
+[
+  {
+    "model": "warga.warga",
+    "pk": 1,
+    "fields": {
+      "nik": "3201011234567890",
+      "nama_lengkap": "Budi Santoso",
+      "alamat": "Jl. Merdeka No. 10, Kelurahan Sukamaju",
+      "no_telepon": "081234567890",
+      "tanggal_registrasi": "2025-01-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "warga.warga",
+    "pk": 2,
+    "fields": {
+      "nik": "3201021234567891",
+      "nama_lengkap": "Siti Nurhaliza",
+      "alamat": "Jl. Gatot Subroto No. 25, Kelurahan Sukamaju",
+      "no_telepon": "082345678901",
+      "tanggal_registrasi": "2025-01-02T11:30:00Z"
+    }
+  },
+  {
+    "model": "warga.warga",
+    "pk": 3,
+    "fields": {
+      "nik": "3201031234567892",
+      "nama_lengkap": "Ahmad Wijaya",
+      "alamat": "Jl. Sudirman No. 5, Kelurahan Sukamaju",
+      "no_telepon": "083456789012",
+      "tanggal_registrasi": "2025-01-03T14:15:00Z"
+    }
+  },
+  {
+    "model": "warga.warga",
+    "pk": 4,
+    "fields": {
+      "nik": "3201041234567893",
+      "nama_lengkap": "Dewi Kusuma",
+      "alamat": "Jl. Ahmad Yani No. 15, Kelurahan Sukamaju",
+      "no_telepon": "084567890123",
+      "tanggal_registrasi": "2025-01-04T09:45:00Z"
+    }
+  },
+  {
+    "model": "warga.warga",
+    "pk": 5,
+    "fields": {
+      "nik": "3201051234567894",
+      "nama_lengkap": "Rudi Hermawan",
+      "alamat": "Jl. Diponegoro No. 20, Kelurahan Sukamaju",
+      "no_telepon": "085678901234",
+      "tanggal_registrasi": "2025-01-05T16:20:00Z"
+    }
+  }
+]

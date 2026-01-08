@@ -4,34 +4,234 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Warga Kelurahan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            color: white;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            grid-column: 1 / -1;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .warga-list-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .warga-card {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background: #f9f9f9;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .warga-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        .warga-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .warga-card p {
+            color: #555;
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+
+        .warga-card strong {
+            color: #333;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.1em;
+        }
+
+        .loading span {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #f5c6cb;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Daftar Warga</h1>
+    <div class="container">
+        <h1>📋 Daftar Warga Kelurahan</h1>
 
-    <section id="pendaftaran">
-      <h2>Form Pendaftaran Warga</h2>
-      <form id="warga-form">
-        <label for="nik">NIK:</label>
-        <input type="text" id="nik" name="nik" required>
-        <br>
-        <label for="nama_lengkap">Nama Lengkap:</label>
-        <input type="text" id="nama_lengkap" name="nama_lengkap" required>
-        <br>
-        <label for="alamat">Alamat:</label>
-        <input type="text" id="alamat" name="alamat" required>
-        <br>
-        <label for="no_telepon">No. Telepon:</label>
-        <input type="text" id="no_telepon" name="no_telepon">
-        <br>
-        <button type="submit">Daftar</button>
-      </form>
-      <div id="form-status" aria-live="polite" style="margin-top:8px;color:#555"></div>
-    </section>
+        <!-- Form Section -->
+        <div class="form-container">
+            <h2>Tambah Warga Baru</h2>
+            <div id="form-message"></div>
+            <form id="warga-form">
+                <div class="form-group">
+                    <label for="nik">NIK:</label>
+                    <input type="text" id="nik" name="nik" required>
+                </div>
+                <div class="form-group">
+                    <label for="nama_lengkap">Nama Lengkap:</label>
+                    <input type="text" id="nama_lengkap" name="nama_lengkap" required>
+                </div>
+                <div class="form-group">
+                    <label for="no_telepon">No. Telepon:</label>
+                    <input type="tel" id="no_telepon" name="no_telepon" required>
+                </div>
+                <div class="form-group full">
+                    <label for="alamat">Alamat:</label>
+                    <textarea id="alamat" name="alamat" required></textarea>
+                </div>
+                <button type="submit">Daftar Warga</button>
+            </form>
+        </div>
 
-    <div id="warga-list-container">
-        <p>Memuat data...</p>
+        <!-- List Section -->
+        <div class="warga-list-container">
+            <h2>Data Warga</h2>
+            <div id="warga-list-container">
+                <div class="loading">
+                    <span>⏳</span> Memuat data...
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="app.js"></script> 
+    <script src="app.js"></script>
 </body>
 </html>
