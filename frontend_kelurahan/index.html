@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f5f7fa;
             min-height: 100vh;
             padding: 20px;
         }
@@ -24,26 +24,29 @@
         }
 
         h1 {
-            color: white;
+            color: #1a3a52;
             text-align: center;
             margin-bottom: 30px;
             font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
         }
 
         h2 {
-            color: white;
+            color: #1a3a52;
             margin-top: 30px;
             margin-bottom: 15px;
             font-size: 1.5em;
+            font-weight: 600;
         }
 
         .form-container {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 30px;
+            border-radius: 10px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #2c5aa0;
         }
 
         form {
@@ -64,22 +67,23 @@
         label {
             margin-bottom: 5px;
             font-weight: 600;
-            color: #333;
+            color: #1a3a52;
         }
 
         input, textarea {
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 1px solid #d0d8e0;
+            border-radius: 6px;
             font-size: 1em;
             font-family: inherit;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #fafbfc;
         }
 
         input:focus, textarea:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #2c5aa0;
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
         }
 
         textarea {
@@ -90,10 +94,10 @@
         button {
             grid-column: 1 / -1;
             padding: 12px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2c5aa0 0%, #1a3a52 100%);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
@@ -102,7 +106,7 @@
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
         }
 
         button:active {
@@ -130,9 +134,9 @@
 
         .warga-list-container {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .warga-card {
@@ -151,9 +155,10 @@
         }
 
         .warga-card h3 {
-            color: #667eea;
+            color: #2c5aa0;
             margin-bottom: 10px;
             font-size: 1.3em;
+            font-weight: 600;
         }
 
         .warga-card p {
@@ -190,16 +195,95 @@
             border: 1px solid #f5c6cb;
             text-align: center;
         }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-bottom: 3px solid #2c5aa0;
+        }
+
+        .navbar-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1a3a52;
+        }
+
+        .navbar-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .navbar-buttons a, .navbar-buttons button {
+            padding: 10px 15px;
+            background: #2c5aa0;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-size: 0.95em;
+        }
+
+        .navbar-buttons a:hover, .navbar-buttons button:hover {
+            background: #1a3a52;
+            transform: translateY(-2px);
+        }
+
+        .navbar-buttons a.active {
+            background: #d4af37;
+            color: #1a3a52;
+        }
+
+        .auth-status {
+            color: #1a3a52;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff4444;
+        }
+
+        .status-indicator.logged-in {
+            background: #44ff44;
+        }
     </style>
 </head>
 <body>
-<<<<<<< HEAD
     <div class="container">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="navbar-title">📋 Kelurahan Warga</div>
+            <div class="navbar-buttons">
+                <a href="index.html" class="active">🏠 Warga</a>
+                <a href="pengaduan.html">📢 Pengaduan</a>
+                <button id="auth-btn">🔐 Login</button>
+            </div>
+            <div class="auth-status">
+                <span id="auth-text">Belum Login</span>
+                <div id="status-dot" class="status-indicator"></div>
+            </div>
+        </div>
+
         <h1>📋 Daftar Warga Kelurahan</h1>
-=======
-    <h1>Daftar Warga</h1>
-  <p><a href="pengaduan.html">Kelola Pengaduan</a> | <a href="login.html">Login</a></p>
->>>>>>> 521baa5a9ecb4016f797709b004ed9b62bf9d717
 
         <!-- Form Section -->
         <div class="form-container">

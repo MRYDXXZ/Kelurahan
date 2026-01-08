@@ -5,48 +5,314 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Login - Data Warga Kelurahan</title>
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;padding:24px;background:#f7f7f7}
-    .card{background:#fff;padding:20px;border-radius:6px;max-width:420px;margin:40px auto;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-    h1{margin:0 0 12px;font-size:1.3rem}
-    label{display:block;margin-top:10px;font-size:0.95rem}
-    input[type="text"],input[type="password"]{width:100%;padding:8px;margin-top:6px;border:1px solid #ddd;border-radius:4px}
-    button{margin-top:14px;padding:8px 12px;border:0;background:#1976d2;color:#fff;border-radius:4px;cursor:pointer}
-    #login-status{margin-top:10px;font-size:0.95rem}
-    .note{margin-top:12px;color:#666;font-size:0.9rem}
-    a.small{display:inline-block;margin-top:8px;color:#1976d2;font-size:0.9rem;text-decoration:none}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #41B06E 0%, #8DECB4 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .login-header h1 {
+      color: #41B06E;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .login-header p {
+      color: #666;
+      font-size: 0.95em;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input {
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #41B06E;
+      box-shadow: 0 0 0 3px rgba(65, 176, 110, 0.1);
+    }
+
+    button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #41B06E 0%, #2d7d52 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(65, 176, 110, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #login-status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 500;
+      display: none;
+    }
+
+    #login-status.show {
+      display: block;
+    }
+
+    #login-status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    #login-status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .note {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 6px;
+      font-size: 0.85em;
+      color: #555;
+    }
+
+    .note h3 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 0.95em;
+    }
+
+    .note p {
+      margin: 5px 0;
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #41B06E;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      color: #666;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #41B06E;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
-  <div class="card" role="main">
-    <h1>Masuk</h1>
-    <p>Masukkan API token untuk autentikasi. (Penggunaan development saja.)</p>
+  <div class="login-container">
+    <a href="index.html" class="back-link">← Kembali</a>
 
-    <form id="login-form" autocomplete="off">
-      <label for="token">API Token</label>
-      <input id="token" name="token" type="text" inputmode="text" required />
-      <button type="submit">Masuk</button>
-      <div id="login-status" aria-live="polite"></div>
+    <div class="login-header">
+      <h1>🔐 Login</h1>
+      <p>Masuk dengan username dan password</p>
+    </div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required placeholder="admin">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required placeholder="••••••••">
+      </div>
+
+      <button type="submit" id="submit-btn">Login</button>
     </form>
 
-    <p class="note">Jika belum punya token, dapatkan dari administrator atau endpoint backend.</p>
-    <a class="small" href="index.html" id="to-index">Kembali ke halaman utama</a>
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Memproses login...</p>
+    </div>
+
+    <div id="login-status" aria-live="polite"></div>
+
+    <div class="note">
+      <h3>🧪 Akun Test:</h3>
+      <p><strong>Username:</strong> admin</p>
+      <p><strong>Password:</strong> (sesuai yang Anda set)</p>
+      <p style="margin-top: 10px; color: #999; font-size: 0.85em;">
+        📌 Hubungi administrator untuk mendapatkan kredensial login.
+      </p>
+    </div>
   </div>
 
   <script>
-    (function () {
-      const storageKey = 'api_token';
-      const statusEl = document.getElementById('login-status');
-      const tokenInput = document.getElementById('token');
-      const form = document.getElementById('login-form');
+    const API_URL = 'http://127.0.0.1:8000/api/auth/token/';
+    const STORAGE_KEY = 'api_token';
 
-      // Jika sudah login, langsung ke index.html
+    const form = document.getElementById('login-form');
+    const statusDiv = document.getElementById('login-status');
+    const loadingDiv = document.getElementById('loading');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function showMessage(msg, type) {
+      statusDiv.textContent = msg;
+      statusDiv.className = `show ${type}`;
+      setTimeout(() => {
+        statusDiv.className = '';
+      }, 5000);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        showMessage('❌ Username dan password harus diisi', 'error');
+        return;
+      }
+
+      // Show loading
+      submitBtn.style.display = 'none';
+      loadingDiv.style.display = 'block';
+
       try {
-        if (localStorage.getItem(storageKey)) {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        });
+
+        loadingDiv.style.display = 'none';
+        submitBtn.style.display = 'block';
+
+        if (!response.ok) {
+          const data = await response.json();
+          showMessage('❌ Username atau password salah', 'error');
+          console.error('Login failed:', data);
+          return;
+        }
+
+        const data = await response.json();
+        const token = data.token;
+
+        // Save token
+        try {
+          localStorage.setItem(STORAGE_KEY, token);
+        } catch (e) {
+          console.error('Failed to save token:', e);
+          showMessage('⚠️ Token tidak bisa disimpan di browser', 'error');
+          return;
+        }
+
+        showMessage('✅ Login berhasil! Redirect...', 'success');
+        console.log('Login successful. Token:', token);
+
+        // Redirect after 1 second
+        setTimeout(() => {
           window.location.href = 'index.html';
+        }, 1000);
+
+      } catch (error) {
+        loadingDiv.style.display = 'none';
+        submitBtn.style.display = 'block';
+        showMessage('❌ Gagal terhubung ke server. Pastikan Django berjalan.', 'error');
+        console.error('Connection error:', error);
+      }
+    });
+
+    // Check if already logged in
+    function checkLogin() {
+      try {
+        const token = localStorage.getItem(STORAGE_KEY);
+        if (token) {
+          showMessage('✅ Anda sudah login! Redirect...', 'success');
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1000);
         }
       } catch (e) {
-        console.error('Storage access error', e);
+        console.error('Storage check error:', e);
       }
+    }
+
+    // Check on page load
+    window.addEventListener('load', checkLogin);
+  </script>
+</body>
+</html>
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
